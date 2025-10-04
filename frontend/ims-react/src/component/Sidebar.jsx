@@ -1,5 +1,5 @@
 import React from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import ApiService from "../service/ApiService";
 import { useTheme } from '../context/ThemeContext';
 
@@ -8,17 +8,17 @@ const Sidebar = () => {
   const isAuth = ApiService.isAuthenticated();
   const isAdmin = ApiService.isAdmin();
   const location = useLocation();
+  const navigate = useNavigate(); // Add useNavigate hook
 
   const logout = () => {
     ApiService.logout();
+    navigate('/login'); // Navigate to login page after logout
   };
 
-  // Check if a link is active
   const isActiveLink = (path) => {
     return location.pathname === path || location.pathname.startsWith(path + '/');
   };
 
-  // Menu items with icons
   const menuItems = [
     { path: "/dashboard", label: "Dashboard", icon: "📊", show: isAuth },
     { path: "/transaction", label: "Transactions", icon: "💳", show: isAuth },
@@ -61,20 +61,17 @@ const Sidebar = () => {
       </nav>
 
       {/* Logout Section */}
-      <div className="sidebar-footer">
-        {isAuth && (
-          <div className="logout-container">
-            <Link 
-              onClick={logout} 
-              to="/login" 
-              className="logout-link"
-            >
-              <span className="logout-icon">🚪</span>
-              <span className="logout-text">Logout</span>
-            </Link>
-          </div>
-        )}
-      </div>
+      {isAuth && (
+        <div className="sidebar-footer">
+          <button 
+            className="logout-link" 
+            onClick={logout}
+          >
+            <span className="logout-icon">🚪</span>
+            <span className="logout-text">Logout</span>
+          </button>
+        </div>
+      )}
     </div>
   );
 };
