@@ -2,8 +2,10 @@ import React, { useState, useEffect } from "react";
 import Layout from "../component/Layout";
 import ApiService from "../service/ApiService";
 import { useNavigate, useParams } from "react-router-dom";
+import { useTheme } from '../context/ThemeContext';
 
 const AddEditProductPage = () => {
+  const { isDarkTheme } = useTheme();
   const { productId } = useParams("");
   const [name, setName] = useState("");
   const [sku, setSku] = useState("");
@@ -61,7 +63,7 @@ const AddEditProductPage = () => {
     if (productId) fetProductById();
   }, [productId]);
 
-  //metjhod to show message or errors
+  // Method to show message or errors
   const showMessage = (msg) => {
     setMessage(msg);
     setTimeout(() => {
@@ -73,7 +75,7 @@ const AddEditProductPage = () => {
     const file = e.target.files[0];
     setImageFile(file);
     const reader = new FileReader();
-    reader.onloadend = () => setImageUrl(reader.result); //user imagurl to preview the image to upload
+    reader.onloadend = () => setImageUrl(reader.result); // user imageurl to preview the image to upload
     reader.readAsDataURL(file);
   };
 
@@ -111,90 +113,120 @@ const AddEditProductPage = () => {
     <Layout>
       {message && <div className="message">{message}</div>}
 
-      <div className="product-form-page">
-        <h1>{isEditing ? "Edit Product" : "Add Product"}</h1>
-        <form onSubmit={handleSubmit}>
-          <div className="form-group">
-            <label>Product Name</label>
-            <input
-              type="text"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              required
-            />
+      <div className={`product-form-page ${isDarkTheme ? 'dark-theme' : 'light-theme'}`}>
+        <div className="form-container">
+          <div className="form-header">
+            <h1>{isEditing ? "✏️ Edit Product" : "✨ Add New Product"}</h1>
+            <p>{isEditing ? "Update your product details" : "Fill in the details to add a new product"}</p>
           </div>
+          
+          <form onSubmit={handleSubmit} className="product-form">
+            <div className="form-grid">
+              <div className="form-group">
+                <label>Product Name</label>
+                <input
+                  type="text"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  required
+                  placeholder="Enter product name"
+                />
+              </div>
 
-          <div className="form-group">
-            <label>Sku</label>
-            <input
-              type="text"
-              value={sku}
-              onChange={(e) => setSku(e.target.value)}
-              required
-            />
-          </div>
+              <div className="form-group">
+                <label>SKU</label>
+                <input
+                  type="text"
+                  value={sku}
+                  onChange={(e) => setSku(e.target.value)}
+                  required
+                  placeholder="Enter SKU"
+                />
+              </div>
 
-          <div className="form-group">
-            <label>Stock Quantity</label>
-            <input
-              type="number"
-              value={stockQuantity}
-              onChange={(e) => setStokeQuantity(e.target.value)}
-              required
-            />
-          </div>
+              <div className="form-group">
+                <label>Stock Quantity</label>
+                <input
+                  type="number"
+                  value={stockQuantity}
+                  onChange={(e) => setStokeQuantity(e.target.value)}
+                  required
+                  placeholder="Enter quantity"
+                />
+              </div>
 
-          <div className="form-group">
-            <label>Price</label>
-            <input
-              type="number"
-              value={price}
-              onChange={(e) => setPrice(e.target.value)}
-              required
-            />
-          </div>
+              <div className="form-group">
+                <label>Price ($)</label>
+                <input
+                  type="number"
+                  value={price}
+                  onChange={(e) => setPrice(e.target.value)}
+                  required
+                  placeholder="Enter price"
+                  step="0.01"
+                />
+              </div>
 
-          <div className="form-group">
-            <label>Description</label>
+              <div className="form-group full-width">
+                <label>Description</label>
+                <textarea
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
+                  placeholder="Enter product description"
+                  rows="4"
+                />
+              </div>
 
-            <textarea
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-            />
-          </div>
+              <div className="form-group">
+                <label>Category</label>
+                <select
+                  value={categoryId}
+                  onChange={(e) => setCategoryId(e.target.value)}
+                  required
+                >
+                  <option value="">Select a category</option>
+                  {categories.map((category) => (
+                    <option key={category.id} value={category.id}>
+                      {category.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
 
-          <div className="form-group">
-            <label>Category</label>
+              <div className="form-group full-width">
+                <label>Product Image</label>
+                <div className="file-upload">
+                  <input 
+                    type="file" 
+                    onChange={handleImageChange} 
+                    accept="image/*"
+                    className="file-input"
+                  />
+                  <div className="upload-placeholder">
+                    <span className="upload-icon">📷</span>
+                    <span>Choose product image</span>
+                  </div>
+                </div>
+                
+                {imageUrl && (
+                  <div className="image-preview-container">
+                    <img src={imageUrl} alt="preview" className="image-preview" />
+                  </div>
+                )}
+              </div>
+            </div>
 
-            <select
-              value={categoryId}
-              onChange={(e) => setCategoryId(e.target.value)}
-              required
-            >
-              <option value="">Select a category</option>
-
-              {categories.map((category) => (
-                <option key={category.id} value={category.id}>
-                  {category.name}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          <div className="form-group">
-            <label>Product Image</label>
-            <input type="file" onChange={handleImageChange} />
-
-            {imageUrl && (
-              <img src={imageUrl} alt="preview" className="image-preview" />
-            )}
-          </div>
-          <button type="submit">{isEditing ? "Edit Product" : "Add Product"}</button>
-
-        </form>
+            <div className="form-actions">
+              <button type="submit" className="submit-btn">
+                <span className="btn-icon">{isEditing ? "💾" : "🚀"}</span>
+                {isEditing ? "Update Product" : "Add Product"}
+              </button>
+            </div>
+          </form>
+        </div>
       </div>
     </Layout>
   );
 };
 
-export default AddEditProductPage; 
+export default AddEditProductPage;
