@@ -2,9 +2,10 @@ import React, { useState, useEffect } from "react";
 import Layout from "../component/Layout";
 import ApiService from "../service/ApiService";
 import { useNavigate, useParams } from "react-router-dom";
-
+import { useTheme } from '../context/ThemeContext';
 
 const AddEditSupplierPage = () => {
+  const { isDarkTheme } = useTheme();
   const { supplierId } = useParams("");
   const [name, setName] = useState("");
   const [contactInfo, setContactInfo] = useState("");
@@ -29,7 +30,7 @@ const AddEditSupplierPage = () => {
         } catch (error) {
           showMessage(
             error.response?.data?.message ||
-              "Error Getting a SUpplier by Id: " + error
+              "Error Getting a Supplier by Id: " + error
           );
         }
       };
@@ -37,7 +38,7 @@ const AddEditSupplierPage = () => {
     }
   }, [supplierId]);
 
-  //handle form submission for both add and edit supplier
+  // handle form submission for both add and edit supplier
   const handleSubmit = async (e) => {
     e.preventDefault();
     const supplierData = { name, contactInfo, address };
@@ -45,22 +46,22 @@ const AddEditSupplierPage = () => {
     try {
       if (isEditing) {
         await ApiService.updateSupplier(supplierId, supplierData);
-        showMessage("Supplier Edited succesfully");
+        showMessage("Supplier Edited successfully");
         navigate("/supplier")
       } else {
         await ApiService.addSupplier(supplierData);
-        showMessage("Supplier Added succesfully");
+        showMessage("Supplier Added successfully");
         navigate("/supplier")
       }
     } catch (error) {
       showMessage(
         error.response?.data?.message ||
-          "Error Getting a SUpplier by Id: " + error
+          "Error Getting a Supplier by Id: " + error
       );
     }
   };
 
-  //metjhod to show message or errors
+  // method to show message or errors
   const showMessage = (msg) => {
     setMessage(msg);
     setTimeout(() => {
@@ -71,43 +72,57 @@ const AddEditSupplierPage = () => {
   return (
     <Layout>
       {message && <div className="message">{message}</div>}
-      <div className="supplier-form-page">
-        <h1>{isEditing ? "Edit Supplier" : "Add Supplier"}</h1>
-
-        <form onSubmit={handleSubmit}>
-          <div className="form-group">
-            <label>Supplier Name</label>
-            <input
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              required
-              type="text"
-            />
+      <div className={`supplier-form-page ${isDarkTheme ? 'dark-theme' : 'light-theme'}`}>
+        <div className="form-container">
+          <div className="form-header">
+            <h1>{isEditing ? "✏️ Edit Supplier" : "✨ Add New Supplier"}</h1>
+            <p>{isEditing ? "Update your supplier details" : "Fill in the details to add a new supplier"}</p>
           </div>
+          
+          <form onSubmit={handleSubmit} className="supplier-form">
+            <div className="form-grid">
+              <div className="form-group">
+                <label>Supplier Name</label>
+                <input
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  required
+                  type="text"
+                  placeholder="Enter supplier name"
+                />
+              </div>
 
-          <div className="form-group">
-            <label>Contact Info</label>
-            <input
-              value={contactInfo}
-              onChange={(e) => setContactInfo(e.target.value)}
-              required
-              type="text"
-            />
-          </div>
+              <div className="form-group">
+                <label>Contact Info</label>
+                <input
+                  value={contactInfo}
+                  onChange={(e) => setContactInfo(e.target.value)}
+                  required
+                  type="text"
+                  placeholder="Enter contact information"
+                />
+              </div>
 
-          <div className="form-group">
-            <label>Address</label>
-            <input
-              value={address}
-              onChange={(e) => setAddress(e.target.value)}
-              required
-              type="text"
-            />
-          </div>
-          <button type="submit">
-            {isEditing ? "Edit Supplier" : "Add Supplier"}
-          </button>
-        </form>
+              <div className="form-group full-width">
+                <label>Address</label>
+                <input
+                  value={address}
+                  onChange={(e) => setAddress(e.target.value)}
+                  required
+                  type="text"
+                  placeholder="Enter full address"
+                />
+              </div>
+            </div>
+
+            <div className="form-actions">
+              <button type="submit" className="submit-btn">
+                <span className="btn-icon">{isEditing ? "💾" : "🚀"}</span>
+                {isEditing ? "Update Supplier" : "Add Supplier"}
+              </button>
+            </div>
+          </form>
+        </div>
       </div>
     </Layout>
   );
