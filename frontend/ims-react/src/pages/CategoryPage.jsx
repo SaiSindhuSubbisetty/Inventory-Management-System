@@ -1,16 +1,17 @@
 import React, { useEffect, useState } from "react";
 import Layout from "../component/Layout";
 import ApiService from "../service/ApiService";
+import { useTheme } from '../context/ThemeContext';
 
 const CategoryPage = () => {
+  const { isDarkTheme } = useTheme();
   const [categories, setCategories] = useState([]);
   const [categoryName, setCategoryName] = useState("");
   const [message, setMessage] = useState("");
   const [isEditing, setIsEditing] = useState(false);
   const [editingCategoryId, setEditingCategoryId] = useState(null);
 
-  //fetcg the categories form our backend
-
+  // Fetch the categories from our backend
   useEffect(() => {
     const getCategories = async () => {
       try {
@@ -27,7 +28,7 @@ const CategoryPage = () => {
     getCategories();
   }, []);
 
-  //add category
+  // Add category
   const addCategory = async () => {
     if (!categoryName) {
       showMessage("Category name cannot be empty");
@@ -35,9 +36,9 @@ const CategoryPage = () => {
     }
     try {
       await ApiService.createCategory({ name: categoryName });
-      showMessage("Category sucessfully added");
-      setCategoryName(""); //clear input
-      window.location.reload(); //relode page
+      showMessage("Category successfully added");
+      setCategoryName(""); // Clear input
+      window.location.reload(); // Reload page
     } catch (error) {
       showMessage(
         error.response?.data?.message || "Error Loggin in a User: " + error
@@ -45,16 +46,16 @@ const CategoryPage = () => {
     }
   };
 
-  //Edit category
+  // Edit category
   const editCategory = async () => {
     try {
       await ApiService.updateCategory(editingCategoryId, {
         name: categoryName,
       });
-      showMessage("Category sucessfully Updated");
+      showMessage("Category successfully Updated");
       setIsEditing(false);
-      setCategoryName(""); //clear input
-      window.location.reload(); //relode page
+      setCategoryName(""); // Clear input
+      window.location.reload(); // Reload page
     } catch (error) {
       showMessage(
         error.response?.data?.message || "Error Loggin in a User: " + error
@@ -62,20 +63,20 @@ const CategoryPage = () => {
     }
   };
 
-  //populate the edit category data
+  // Populate the edit category data
   const handleEditCategory = (category) => {
     setIsEditing(true);
     setEditingCategoryId(category.id);
     setCategoryName(category.name);
   };
 
-  //delete category
+  // Delete category
   const handleDeleteCategory = async (categoryId) => {
     if (window.confirm("Are you sure you want to delete this category?")) {
       try {
         await ApiService.deleteCategory(categoryId);
-        showMessage("Category sucessfully Deleted");
-        window.location.reload(); //relode page
+        showMessage("Category successfully Deleted");
+        window.location.reload(); // Reload page
       } catch (error) {
         showMessage(
           error.response?.data?.message || "Error Deleting in a Category: " + error
@@ -84,7 +85,7 @@ const CategoryPage = () => {
     }
   };
 
-  //metjhod to show message or errors
+  // Method to show message or errors
   const showMessage = (msg) => {
     setMessage(msg);
     setTimeout(() => {
@@ -95,7 +96,8 @@ const CategoryPage = () => {
   return (
     <Layout>
       {message && <div className="message">{message}</div>}
-      <div className="category-page">
+      <div className={`category-page ${isDarkTheme ? 'dark-theme' : 'light-theme'}`}>
+        
         <div className="category-header">
           <h1>Categories</h1>
           <div className="add-cat">
@@ -109,7 +111,7 @@ const CategoryPage = () => {
             {!isEditing ? (
               <button onClick={addCategory}>Add Category</button>
             ) : (
-              <button onClick={editCategory}>Edit Cateogry</button>
+              <button onClick={editCategory}>Edit Category</button>
             )}
           </div>
         </div>
@@ -118,13 +120,22 @@ const CategoryPage = () => {
           <ul className="category-list">
             {categories.map((category) => (
               <li className="category-item" key={category.id}>
-                <span>{category.name}</span>
+                <div className="category-info">
+                  <span className="category-name">{category.name}</span>
+                  <span className="category-id">ID: {category.id}</span>
+                </div>
 
                 <div className="category-actions">
-                  <button onClick={() => handleEditCategory(category)}>
+                  <button 
+                    onClick={() => handleEditCategory(category)}
+                    className="edit-btn"
+                  >
                     Edit
                   </button>
-                  <button onClick={() => handleDeleteCategory(category.id)}>
+                  <button 
+                    onClick={() => handleDeleteCategory(category.id)}
+                    className="delete-btn"
+                  >
                     Delete
                   </button>
                 </div>
