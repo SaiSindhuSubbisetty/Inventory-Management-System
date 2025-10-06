@@ -37,8 +37,7 @@ public class ProductServiceImpl implements ProductService {
     //AFTER YOUR FRONTEND IS SETUP CHANGE THE IMAGE DIRECTORY TO YHE FRONTEND YOU ARE USING
     //private static final String IMAGE_DIRECTORY_2 = "C:/Users/saut7/Downloads/frontend/ims-react/public/products/";
     //AFTER YOUR FRONTEND IS SETUP CHANGE THE IMAGE DIRECTORY TO THE FRONTEND YOU ARE USING
-    private static final String IMAGE_DIRECTORY_2 = "C:/Users/saut7/Downloads/frontend/ims-react/public/products/";
-
+    private static final String IMAGE_DIRECTORY_2 = "C:/Users/saut7/Downloads/InventoryManagementSystem/frontend/ims-react/public/products/";
 
 
     @Override
