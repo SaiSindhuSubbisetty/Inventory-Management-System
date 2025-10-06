@@ -21,3 +21,6 @@ Thumbs.db
 
 HELP.md
 
+# Ignore uploaded product images
+product-images/
+../frontend/ims-react/public/products/
