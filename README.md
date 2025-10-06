@@ -159,35 +159,32 @@ npm start
 ## 📸 Screenshots
 
 ### 🧾 Register Page
-![Register Page](./screenshot/78ab618b-67c1-48b4-aca9-0ab1f4b33abc.png)
+![Register Page](InventoryManagementSystem/ScreenShots/Register.png)
+
 
 ### 🔐 Login Page
-![Login Page](./screenshot/login.png)
+![Login Page](InventoryManagementSystem/ScreenShots/Login.png)
+
 
 ### 📊 Dashboard
-![Dashboard Page 1](./screenshot/dashboard1.png)
-![Dashboard Page 2](./screenshot/dashboard2.png)
+![Dashboard Page 1](InventoryManagementSystem/ScreenShots/Dashboard1.png)
+
+
+![Dashboard Page 2](InventoryManagementSystem/ScreenShots/Dashboard2.png)
+
 
 ### 💰 Transactions
-![Transactions Page](./screenshot/transactions.png)
+![Transactions Page](InventoryManagementSystem/ScreenShots/Transaction.png)
 
-### 🛒 Purchase
-![Purchase Page](./screenshot/purchase.png)
 
-### 📦 Sell
-![Sell Page](./screenshot/sell.png)
-
-### 👤 Profile
-![Profile Page](./screenshot/profile.png)
 
 ### 🏷️ Categories
-![Category Page](./screenshot/category.png)
+![Category Page](InventoryManagementSystem/ScreenShots/Category.png)
 
-### 🚚 Suppliers
-![Suppliers Page](./screenshot/suppliers.png)
+
 
 ### 📦 Products
-![Products Page](./screenshot/products.png)
+![Products Page](InventoryManagementSystem/ScreenShots/Products.png)
 
 ---
 
