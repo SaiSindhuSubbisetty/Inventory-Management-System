@@ -146,6 +146,52 @@ npm start
 
 ---
 
+## 🌐 Live Links
+
+**Swagger UI (API Documentation):**  
+[http://localhost:5050/swagger-ui/index.html](http://localhost:5050/swagger-ui/index.html)
+
+**Frontend Live (Vercel Deployment):**  
+[https://inventory-management-system-fronten-seven.vercel.app/login](https://inventory-management-system-fronten-seven.vercel.app/login)
+
+---
+
+## 📸 Screenshots
+
+### 🧾 Register Page
+![Register Page](./screenshot/78ab618b-67c1-48b4-aca9-0ab1f4b33abc.png)
+
+### 🔐 Login Page
+![Login Page](./screenshot/login.png)
+
+### 📊 Dashboard
+![Dashboard Page 1](./screenshot/dashboard1.png)
+![Dashboard Page 2](./screenshot/dashboard2.png)
+
+### 💰 Transactions
+![Transactions Page](./screenshot/transactions.png)
+
+### 🛒 Purchase
+![Purchase Page](./screenshot/purchase.png)
+
+### 📦 Sell
+![Sell Page](./screenshot/sell.png)
+
+### 👤 Profile
+![Profile Page](./screenshot/profile.png)
+
+### 🏷️ Categories
+![Category Page](./screenshot/category.png)
+
+### 🚚 Suppliers
+![Suppliers Page](./screenshot/suppliers.png)
+
+### 📦 Products
+![Products Page](./screenshot/products.png)
+
+---
+
+
 ## 📊 Example Workflows
 
 * **Add Supplier → Purchase Stock → Products updated automatically**
